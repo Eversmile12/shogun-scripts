@@ -99,22 +99,22 @@ setProperty "Pre_Rotation" $r_end_foot 0 0 -onMod $rightFootEnd;
 
 
 string $phallanges[16];
-$secondphallange[0] = LeftHandPinky3;
-$secondphallange[1] = LeftHandMiddle3;
-$secondphallange[2] = LeftHandRing3;
-$secondphallange[3] = LeftHandIndex3;
-$secondphallange[4] = RightHandPinky3;
-$secondphallange[5] = RightHandMiddle3;
-$secondphallange[6] = RightHandRing3;
-$secondphallange[7] = RightHandIndex3;
-$secondphallange[8] = LeftHandPinky1;
-$secondphallange[9] = LeftHandMiddle1;
-$secondphallange[10] = LeftHandRing1;
-$secondphallange[11] = LeftHandIndex1;
-$secondphallange[12] = RightHandPinky1;
-$secondphallange[13] = RightHandMiddle1;
-$secondphallange[14] = RightHandRing1;
-$secondphallange[15] = RightHandIndex1;
+$phallanges[0] = LeftHandPinky3;
+$phallanges[1] = LeftHandMiddle3;
+$phallanges[2] = LeftHandRing3;
+$phallanges[3] = LeftHandIndex3;
+$phallanges[4] = RightHandPinky3;
+$phallanges[5] = RightHandMiddle3;
+$phallanges[6] = RightHandRing3;
+$phallanges[7] = RightHandIndex3;
+$phallanges[8] = LeftHandPinky1;
+$phallanges[9] = LeftHandMiddle1;
+$phallanges[10] = LeftHandRing1;
+$phallanges[11] = LeftHandIndex1;
+$phallanges[12] = RightHandPinky1;
+$phallanges[13] = RightHandMiddle1;
+$phallanges[14] = RightHandRing1;
+$phallanges[15] = RightHandIndex1;
 
 
 int $arraycount = `getCount $phallanges`;
