@@ -1,0 +1,135 @@
+// Get current selected subject
+string $char = `getCurrentChar`;
+
+// Get hips bone
+string $hips = $char + "\\\Solving\\\Hips";
+
+// Get spine and leg bones
+string $spine = $hips + "\\\Spine";
+string $spine_3 = Spine3;
+
+string $rightUpLeg = $hips + "\\\RightUpLeg";
+string $leftUpLeg = $hips + "\\\LeftUpLeg";
+
+float $t_hips_shift_z = 1;
+float $t_spine_3_shift_y = 102;
+float $t_clavicle_offset = 10;
+
+float $r_legUp_opening_left = 5.5;
+float $r_legUp_pivot_left = 5;
+float $r_legUp_opening_right = -5.5;
+float $r_legUp_pivot_right = -5;
+
+float $r_legs_folding_degree = 10;
+float $t_legs_height_offset = -440;
+
+float $r_ankle = -2;
+
+float $t_end_foot_offset = 170;
+float $r_end_foot = -5;
+
+
+
+
+// select all parent bones
+select $spine -a;
+select $rightUpLeg -a;
+select $leftUpLeg -a;
+
+// Get hierarchy
+SelectChildren_Add_All;
+selectByType LabelingBone -r -childOf $char; 
+
+// set base pose
+goToBasePose;
+
+// restore hips rotations
+select  $hips;
+setKey "Rotation.X" 90.000000 -onMod $hips;
+setKey "Rotation.Y" 0.000000 -onMod $hips;
+setKey "Rotation.Z" 0.000000 -onMod $hips;
+
+setProperty "Pre_Translation" 0 0 $t_hips_shift_z -onMod $hips;
+// accept removing solving functions
+removeAllParameters -onMod Fra_pomeriggio -solving;
+
+// select shoulders and snap tham onto the spine
+string $rightShoulder = $spine + "\\\Spine1\\\Spine2\\\Spine3\\\RightShoulder";
+string $leftShoulder = $spine + "\\\Spine1\\\Spine2\\\Spine3\\\LeftShoulder";
+
+setProperty "Pre_Translation" 0 $t_spine_3_shift_y 0 -onMod $spine_3;
+
+setProperty "Pre_Translation" -0.000000 90 $t_clavicle_offset -onMod $rightShoulder;
+setProperty "Pre_Translation" -0.000000 90 $t_clavicle_offset -onMod $leftShoulder;
+
+// opens and re-orient legs
+setProperty "Pre_Rotation" 0 $r_legUp_pivot_left $r_legUp_opening_left -onMod $leftUpLeg;
+setProperty "Pre_Rotation" 0 $r_legUp_pivot_right $r_legUp_opening_right -onMod $rightUpLeg;
+
+string $leftLeg = $leftUpLeg + "\\\LeftLeg";
+string $rightLeg = $rightUpLeg + "\\\RightLeg";
+
+setProperty "Pre_Rotation" $r_legs_folding_degree 0 0 -onMod $leftLeg;
+setProperty "Pre_Rotation" $r_legs_folding_degree 0 0 -onMod $rightLeg;
+
+setProperty "Pre_Translation" 0 $t_legs_height_offset 0 -onMod $leftLeg;
+setProperty "Pre_Translation" 0 $t_legs_height_offset 0 -onMod $rightLeg;
+
+// makes the spine straight
+setKey "Rotation.X" 5 -onMod $spine;
+
+string $spine_1 = $spine + "\\\Spine1";
+
+setKey "Rotation.X" -5 -onMod $spine_1;
+
+string $leftAnkle = $leftLeg + "\\\LeftFoot";
+string $rightAnkle = $rightLeg + "\\\RightFoot";
+
+setProperty "Pre_Rotation" $r_ankle 0 0 -onMod $leftAnkle;
+setProperty "Pre_Rotation" $r_ankle 0 0 -onMod $rightAnkle;
+
+string $leftFootEnd = $leftAnkle + "\\\LeftForeFoot\\\LeftToeBase";
+string $rightFootEnd = $rightAnkle + "\\\RightForeFoot\\\RightToeBase";
+
+setProperty "Pre_Translation" 0 0 $t_end_foot_offset -onMod $leftFootEnd;
+setProperty "Pre_Translation" 0 0 $t_end_foot_offset -onMod $rightFootEnd;
+
+setProperty "Pre_Rotation" $r_end_foot 0 0 -onMod $leftFootEnd;
+setProperty "Pre_Rotation" $r_end_foot 0 0 -onMod $rightFootEnd;
+
+
+string $secondphallange[16];
+$secondphallange[0] = LeftHandPinky3;
+$secondphallange[1] = LeftHandMiddle3;
+$secondphallange[2] = LeftHandRing3;
+$secondphallange[3] = LeftHandIndex3;
+$secondphallange[4] = RightHandPinky3;
+$secondphallange[5] = RightHandMiddle3;
+$secondphallange[6] = RightHandRing3;
+$secondphallange[7] = RightHandIndex3;
+$secondphallange[8] = LeftHandPinky1;
+$secondphallange[9] = LeftHandMiddle1;
+$secondphallange[10] = LeftHandRing1;
+$secondphallange[11] = LeftHandIndex1;
+$secondphallange[12] = RightHandPinky1;
+$secondphallange[13] = RightHandMiddle1;
+$secondphallange[14] = RightHandRing1;
+$secondphallange[15] = RightHandIndex1;
+
+
+int $arraycount = `getCount $secondphallange`;
+int $arrayloop = 0; 
+int $offset = 4;
+
+for ( $arrayloop=0 ;
+ $arrayloop < $arraycount ;
+ $arrayloop +=1 ){
+	string $item = (string($secondphallange[$arrayloop]));
+	print $item;
+	string $metapath = $character + "\\\\Solving\\\\" + $item;
+   print $metapath;
+	vector $metacarpal = `getVectorProperty $metapath "Pre_Translation"`;
+	print($metacarpal);
+	float $metacarpalY=$metacarpal.y - $offset;
+	setProperty "Pre_Translation.y" $metacarpalY -onMod $metapath;
+}
