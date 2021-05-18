@@ -98,7 +98,7 @@ setProperty "Pre_Rotation" $r_end_foot 0 0 -onMod $leftFootEnd;
 setProperty "Pre_Rotation" $r_end_foot 0 0 -onMod $rightFootEnd;
 
 
-string $secondphallange[16];
+string $phallanges[16];
 $secondphallange[0] = LeftHandPinky3;
 $secondphallange[1] = LeftHandMiddle3;
 $secondphallange[2] = LeftHandRing3;
@@ -117,14 +117,14 @@ $secondphallange[14] = RightHandRing1;
 $secondphallange[15] = RightHandIndex1;
 
 
-int $arraycount = `getCount $secondphallange`;
+int $arraycount = `getCount $phallanges`;
 int $arrayloop = 0; 
 int $offset = 4;
 
 for ( $arrayloop=0 ;
  $arrayloop < $arraycount ;
  $arrayloop +=1 ){
-	string $item = (string($secondphallange[$arrayloop]));
+	string $item = (string($phallanges[$arrayloop]));
 	print $item;
 	string $metapath = $character + "\\\\Solving\\\\" + $item;
    print $metapath;
