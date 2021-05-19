@@ -1,0 +1,35 @@
+int $animStart = `getAnimStart`;
+int $animEnd = `getAnimEnd`;
+
+// Assumes camera prop subject is selected
+
+// Smoothing steps
+int $smooth_steps = 3;
+// Higher is stronger
+int $camera_threshold = 30;
+// Lower is stronger
+int $camera_cutout = 0.2;
+
+// Default Vicon subjects path, change to your needs
+string $user_path = "C:\\Users\\Public\\Documents\\Vicon\\Subjects\\";
+
+// DO NOT CHANGE UNLESS YOU KNOW WHAT YOU'RE DOING
+selectRange $animStart $animEnd;
+string $char = `getCurrentSubject`;
+string $camera_metapath = $char + "\\\\root";
+
+select $camera_metapath;
+int $arrayloop;
+
+for( $arrayloop = 1; $arrayloop <= $smooth_steps; $arrayloop += 1)
+{
+	print ("SMOOTHING_STEP: " + string($arrayloop) + " of " + string($smooth_steps));
+	filter $camera_cutout $camera_threshold;
+}
+
+
+//saveFile -s `getSceneName` + `getCurrentSubject` + ".fbx";
+string $path = $user_path + `getSceneName` + "_" + $char + ".fbx";
+saveFile -s $path;
+
+print "Camera smoothed and exported to Vicon\\Subjects" ;
